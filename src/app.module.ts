@@ -5,6 +5,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseConfigModule } from './modules/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfigService } from './modules/database/database.service';
+import { PatientsModule } from './modules/patients/patients.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DatabaseConfigService } from './modules/database/database.service';
       envFilePath: '.env',
       isGlobal: true
     }),
+    PatientsModule
   ],
   providers: []
 })

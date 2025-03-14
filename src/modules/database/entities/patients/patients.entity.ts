@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
-@Unique(['name', 'phone_number', 'chart_number'])
+@Index(['name', 'phoneNumber', 'chartNumber'])
 @Entity('patients')
 export class PatientsEntity {
   @PrimaryGeneratedColumn('increment')
@@ -9,13 +9,13 @@ export class PatientsEntity {
   @Column({ type: 'varchar', length: 16, nullable: false })
   name!: string;
 
-  @Column({ type: 'int', nullable: false })
-  phoneNumber!: number;
+  @Column({ type: 'varchar', length: 20, nullable: false })
+  phoneNumber!: string;
 
   @Column({ type: 'int', nullable: true })
   chartNumber?: number;
 
-  @Column({ type: 'int', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   address?: string;
 
   @Column({ type: 'varchar', length: 14, nullable: true })
