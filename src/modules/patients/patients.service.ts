@@ -55,7 +55,14 @@ export class PatientsService {
         );
       }
 
-      // TODO: upate query
+      // update chart number in already saved patients info without chart number
+      await this.patientsRepository
+        .createQueryBuilder('p')
+        .update(PatientsEntity)
+        .set({ chartNumber: () => `(SELECT subquery.chart_number FROM patients subquery WHERE subquery.name = patients.name AND subquery.phone_number = patients.phone_number AND subquery.chart_number IS NOT NULL LIMIT 1)` })
+        .where('patients.chart_number IS NULL')
+        .andWhere('EXISTS (SELECT 1 FROM patients subquery WHERE subquery.name = patients.name AND subquery.phone_number = patients.phone_number AND subquery.chart_number IS NOT NULL)')
+        .execute();
 
       return {
         result: true,
@@ -97,9 +104,5 @@ export class PatientsService {
     });
 
     return formatedDataList;
-  }
-
-  private async bulkInsertPatients(patients: CreatePatientsIneterface[]): Promise<void> {
-    await this.patientsRepository.save(patients);
   }
 }

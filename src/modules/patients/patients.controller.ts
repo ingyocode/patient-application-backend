@@ -2,7 +2,6 @@ import { Controller, Get, HttpException, Post, Query, UploadedFile, UseIntercept
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PatientsService } from './patients.service';
 import { CreatePatientsResponseDto, GetPatientListRequestDto, GetPatientListResponseDto } from './dtos/patients.dto';
-import { PatientsEntity } from '../database/entities/patients/patients.entity';
 import { PaginationDto } from '../common/pagination.dto';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { PaginationResponseDto } from 'src/decorators/response-data.dto';
