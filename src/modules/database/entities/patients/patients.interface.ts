@@ -3,6 +3,6 @@ export interface CreatePatientsIneterface {
   phoneNumber: string;
   chartNumber?: number;
   address?: string;
-  residentNumber?: string;
+  residentNumber: string;
   memo?: string;
 }

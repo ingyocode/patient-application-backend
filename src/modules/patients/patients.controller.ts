@@ -1,6 +1,11 @@
-import { Controller, Get, HttpException, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PatientsService } from './patients.service';
+import { CreatePatientsResponseDto, GetPatientListRequestDto, GetPatientListResponseDto } from './dtos/patients.dto';
+import { PatientsEntity } from '../database/entities/patients/patients.entity';
+import { PaginationDto } from '../common/pagination.dto';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { PaginationResponseDto } from 'src/decorators/response-data.dto';
 
 @Controller('patients')
 export class PatientsController {
@@ -8,12 +13,28 @@ export class PatientsController {
     private readonly patientsService: PatientsService,
   ) {}
 
+  @ApiOperation({
+    summary: 'get patients',
+    description: 'get patients'
+  })
+  @PaginationResponseDto(GetPatientListResponseDto)
   @Get()
-  async getPatientList() {}
+  async getPatientList(
+    @Query() query: GetPatientListRequestDto
+  ): Promise<PaginationDto<GetPatientListResponseDto[]>> {
+    return this.patientsService.getPatientList(query.page, query.limit)
+  }
 
+  @ApiOperation({
+    summary: 'excel file upload',
+    description: 'insert patient info, file extension must xlsx'
+  })
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async uploadPatientFile(@UploadedFile() file: Express.Multer.File) {
+  @ApiOkResponse({
+    type: CreatePatientsResponseDto
+  })
+  async uploadPatientFile(@UploadedFile() file: Express.Multer.File): Promise<CreatePatientsResponseDto> {
     if (!file) {
       throw new HttpException('can not get file', 400);
     }
@@ -24,8 +45,10 @@ export class PatientsController {
 
     const result = await this.patientsService.savePatientListInFile(file.buffer);
 
-    if (!result) {
+    if (!result.result) {
       throw new HttpException('failed to save patient data', 409);
     }
+
+    return result;
   }
 }

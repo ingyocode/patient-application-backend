@@ -6,3 +6,8 @@ export interface PatientsJsonInterface {
   주소?: string;
   메모?: string;
 }
+
+export interface CreatePatientsResponseInterface {
+  result: boolean;
+  effectedRawCount?: number;
+}

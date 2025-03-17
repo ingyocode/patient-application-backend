@@ -1,11 +1,12 @@
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { DatabaseConfigModule } from './modules/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfigService } from './modules/database/database.service';
 import { PatientsModule } from './modules/patients/patients.module';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -28,6 +29,11 @@ import { PatientsModule } from './modules/patients/patients.module';
     }),
     PatientsModule
   ],
-  providers: []
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+  ]
 })
 export class AppModule {}

@@ -18,8 +18,8 @@ export class PatientsEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   address?: string;
 
-  @Column({ type: 'varchar', length: 14, nullable: true })
-  residentNumber?: string;
+  @Column({ type: 'varchar', length: 14, nullable: false })
+  residentNumber: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
   memo?: string;
