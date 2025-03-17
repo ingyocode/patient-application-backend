@@ -19,9 +19,6 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy(),
       logging: true,
-      ssl: {
-        rejectUnauthorized: false,
-      },
     };
   }
 }
