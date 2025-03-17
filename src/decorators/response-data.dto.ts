@@ -13,8 +13,8 @@ export const PaginationResponseDto = <TModel extends Type<unknown>>(model: TMode
           {
             properties: {
               totalCount: {
-                type: 'boolean',
-                example: true,
+                type: 'number',
+                example: 0,
               },
               items: {
                 type: 'array',

@@ -4,7 +4,7 @@ import { PatientsService } from './patients.service';
 import { CreatePatientsResponseDto, GetPatientListRequestDto, GetPatientListResponseDto } from './dtos/patients.dto';
 import { PatientsEntity } from '../database/entities/patients/patients.entity';
 import { PaginationDto } from '../common/pagination.dto';
-import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { PaginationResponseDto } from 'src/decorators/response-data.dto';
 
 @Controller('patients')
@@ -31,6 +31,19 @@ export class PatientsController {
   })
   @Post()
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type:'string',
+          format: 'binary',
+          nullable: false
+        },
+      },
+    },
+  })
   @ApiOkResponse({
     type: CreatePatientsResponseDto
   })
